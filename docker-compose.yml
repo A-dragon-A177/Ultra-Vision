@@ -1,0 +1,27 @@
+services:
+  vision:
+    build: .
+    restart: unless-stopped        # comes back by itself after a crash or reboot
+    env_file: .env
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # Linux Docker compatibility
+    volumes:
+      - ./app:/vision/app
+      - ./agents:/vision/agents
+      - ./procedures:/vision/procedures
+      - ./company.md:/vision/company.md
+      - ./schedules.yaml:/vision/schedules.yaml
+      - ./data:/vision/data
+      - ./brain:/vision/brain
+
+  # Optional offline brain. Start it with:  docker compose --profile local up -d
+  # then run once:  docker compose exec ollama ollama pull gemma3:4b
+  # and set OLLAMA_URL=http://ollama:11434 in .env
+  ollama:
+    image: ollama/ollama
+    profiles: ["local"]
+    restart: unless-stopped
+    volumes:
+      - ./data/ollama:/root/.ollama

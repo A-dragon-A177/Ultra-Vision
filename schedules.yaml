@@ -1,0 +1,24 @@
+# Things Vision does by itself. Times are in your timezone (TZ in .env).
+# "do" is either  procedure:<name>  or any sentence, handled as if you had typed it.
+# "days" is optional (mon, tue, wed, thu, fri, sat, sun). Leave it out for every day.
+# Restart Vision after editing:  docker compose restart vision
+
+- name: Morning brief
+  time: "08:30"
+  days: [mon, tue, wed, thu, fri, sat]
+  do: procedure:daily-brief
+
+- name: Weekly review reminder
+  time: "18:00"
+  days: [sun]
+  do: "Vision, remind me to send you this week's facts so we can run the weekly review."
+
+- name: Jocasta trend research
+  time: "10:00"
+  days: [wed]
+  do: procedure:trend-blog
+
+- name: Content calendar nudge
+  time: "09:00"
+  days: [mon]
+  do: "Friday, what should we post this week? Check the content calendar in brain/wiki/content-calendar.md and suggest 3 ideas."
